@@ -1,0 +1,20 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(var(--main), var(--secondary));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todosContainer {
+  margin-top: 25px;
+  width: 40%;
+}
+
+@media (max-width: 900px) {
+  .todosContainer {
+    margin-top: 25px;
+    width: 90%;
+  }
+}

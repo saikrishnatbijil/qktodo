@@ -1,0 +1,53 @@
+.todoBody {
+  width: 85%;
+  padding: var(--margin-edit-text);
+  background-color: var(--todo);
+  border-radius: 20px;
+  margin: var(--margin-todos);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.elements {
+  width: 25px;
+  margin-left: 10px;
+  transition-duration: 0.3s;
+}
+
+.elements:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.one {
+  display: flex;
+  align-items: center;
+}
+
+.unCheckedText {
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: white;
+  cursor: pointer;
+}
+
+.checkedText {
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: gray;
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+.two {
+  display: flex;
+  align-items: center;
+}
+
+.checker {
+  width: 20px;
+  height: 20px;
+}

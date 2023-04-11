@@ -1,0 +1,27 @@
+.errorComponent {
+  width: fit-content;
+  background-color: var(--red-100);
+  border-radius: 20px;
+  display: flex;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  aspect-ratio: 1;
+  background-color: var(--red-200);
+  border-radius: 50%;
+}
+
+.errorMessage {
+  color: var(--red-300);
+  font-size: 12px;
+  margin-left: 10px;
+  margin-right: 5px;
+}

@@ -1,0 +1,19 @@
+.footerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary);
+  padding: 10px;
+}
+
+.underlineText {
+  color: var(--gray-200);
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 30px;
+}
+
+.underlineText:hover {
+  text-decoration: underline;
+}

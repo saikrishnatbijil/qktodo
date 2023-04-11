@@ -1,0 +1,116 @@
+.logInContainer {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(var(--main), var(--secondary));
+  display: flex;
+  justify-content: center;
+}
+
+.logInContainer h1 {
+  color: white;
+  margin-top: 25px;
+}
+
+.loginBody {
+  width: 38%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.backContainer {
+  width: 100%;
+}
+
+.backBTN {
+  width: fit-content;
+  color: white;
+  padding: 10px;
+  background-color: var(--button);
+  border-radius: 10px;
+  user-select: none;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.backBTN:hover {
+  opacity: 0.5;
+}
+
+.inputLogIn {
+  width: 90%;
+  padding: 14px;
+  background-color: var(--gray-300);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  border-color: transparent;
+  color: white;
+  margin-top: 20px;
+}
+
+.formContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonLogIn {
+  width: 40%;
+  margin-top: 35px;
+  padding: 10px;
+  background-color: var(--button);
+  outline: none;
+  border-style: none;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 10px;
+  transition-duration: 0.5s;
+}
+
+.buttonLogIn:hover {
+  opacity: 0.7;
+  scale: 1.3;
+}
+
+.formContainer h5 {
+  color: var(--gray-200);
+  font-size: 10px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.buttonRegister {
+  width: 40%;
+  margin-top: 10px;
+  padding: 6px;
+  background-color: transparent;
+  border: 5px solid var(--button);
+  outline: none;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 10px;
+  transition-duration: 0.5s;
+}
+
+.buttonRegister:hover {
+  background-color: var(--button);
+}
+
+@media (max-width: 900px) {
+  .loginBody {
+    width: 90%;
+  }
+  .buttonRegister {
+    width: 50%;
+  }
+  .buttonLogIn {
+    width: 50%;
+  }
+}

@@ -1,0 +1,60 @@
+.promptContainer {
+  width: 100%;
+  background-color: var(--alert-blue);
+  padding: 5px;
+}
+
+.promptBody {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.promptBody h4 {
+  color: white;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.positiveBtn {
+  background-color: white;
+  color: var(--main);
+  padding: 6px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.positiveBtn:hover {
+  opacity: 0.7;
+  scale: 1.1;
+}
+
+.negativeBtn {
+  border: 1px solid white;
+  padding: 6px;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.negativeBtn:hover {
+  background-color: white;
+  color: var(--main);
+}
+
+@media (max-width: 900px) {
+  .promptBody {
+    width: 95%;
+  }
+}
+
+.textContainer {
+  width: 45%;
+}
