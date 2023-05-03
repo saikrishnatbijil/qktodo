@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./main.css";
-import { ErrorComponent, InputForm, TodoItem } from "../../components";
+import {
+  ErrorComponent,
+  InputForm,
+  SpacesmenuComponent,
+  TodoItem,
+} from "../../components";
 import {
   doc,
   getDocs,
@@ -10,7 +15,10 @@ import {
   onSnapshot,
   updateDoc,
   deleteDoc,
+  setDoc,
+  getDoc,
 } from "firebase/firestore";
+import { doc as docFire } from "firebase/firestore";
 import { auth, db } from "../../../firebase/firebase-config";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -41,10 +49,19 @@ const getLocalCookiesPermission = () => {
   }
 };
 
+const getLocalSpace = () => {
+  let list = localStorage.getItem("space_name");
+  if (list) {
+    return localStorage.getItem("space_name");
+  } else {
+    return "main";
+  }
+};
+
 function main({ accepted, tooglePrompt }) {
   // Error Componenet
   const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("d");
+  const [errorMessage, setErrorMessage] = useState("");
   // Data Variables
   const [input, setInput] = useState("");
   const [noOfTodos, setNoOfTodos] = useState("");
@@ -54,6 +71,9 @@ function main({ accepted, tooglePrompt }) {
   const [reload, setReload] = useState(1);
   const [uid, setUid] = useState("");
   const [isLogedIn, setIsLogedIn] = useState(false);
+  const [isSpace, setIsSpace] = useState(false);
+  const [space, setSpace] = useState(getLocalSpace());
+  const [spaces, setSpaces] = useState([]);
 
   // console.log(todos);
 
@@ -98,11 +118,12 @@ function main({ accepted, tooglePrompt }) {
   const firebaseClicked = async (e) => {
     e.preventDefault(e);
     try {
-      const docRef = await addDoc(collection(db, uid), {
+      const document = docFire(db, `${uid}/spaces/${space}`, input);
+      setInput("");
+      const docRef = await setDoc(document, {
         name: input,
         checked: false,
       });
-      setInput("");
       // console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       setIsError(true);
@@ -124,7 +145,7 @@ function main({ accepted, tooglePrompt }) {
   };
 
   const firebaseRemove = async (todo) => {
-    await deleteDoc(doc(db, uid, todo.id));
+    await deleteDoc(doc(db, uid, "spaces", space, todo.id));
   };
 
   const toggle = (todo) => {
@@ -155,7 +176,7 @@ function main({ accepted, tooglePrompt }) {
   };
 
   const toggleFirebase = async (todo) => {
-    const checkedRef = doc(db, uid, todo.id);
+    const checkedRef = doc(db, uid, "spaces", space, todo.id);
 
     if (todo.checked) {
       await updateDoc(checkedRef, {
@@ -192,6 +213,7 @@ function main({ accepted, tooglePrompt }) {
         setUid(uid);
         console.log(uid);
         getData(uid);
+        getSpaces(uid);
       } else {
         // User is signed out
         // ...
@@ -204,7 +226,7 @@ function main({ accepted, tooglePrompt }) {
       setReload(reload + 2);
       setIsLogedIn(true);
       // getFTodos();
-      const q = query(collection(db, uid));
+      const q = query(collection(db, uid, "spaces", space));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         let todoArr = [];
         querySnapshot.forEach((doc) => {
@@ -214,6 +236,41 @@ function main({ accepted, tooglePrompt }) {
         setNoOfTodos(todoArr.length);
       });
       return () => unsubscribe;
+    }
+  };
+  const getSpaces = async (uid) => {
+    if (uid !== "") {
+      const q = query(collection(db, uid, "spaces", space));
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        let todoArr = [];
+        querySnapshot.forEach((doc) => {
+          todoArr.push({ ...doc.data(), id: doc.id });
+        });
+        setFTodos(todoArr);
+      });
+      return () => unsubscribe;
+    }
+  };
+  const collectionExists = async () => {
+    try {
+      const snapshot = await firestore
+        .collection(db, uid, "spaces", space)
+        .limit(1)
+        .get();
+      return snapshot.size > 0;
+    } catch (error) {
+      // Handle any potential errors
+      console.error("Error checking collection existence:", error);
+      return false;
+    }
+  };
+  const handleAddSpace = async (e) => {
+    e.preventDefault()
+    const q = query(collection(db, uid, "spaces", space));
+    if (collectionExists) {
+      getSpaces(uid);
+    } else {
+      console.log("HII");
     }
   };
   useEffect(() => {
@@ -246,6 +303,24 @@ function main({ accepted, tooglePrompt }) {
 
   return (
     <div className="container">
+      {isLogedIn && (
+        <form className="spaces_container">
+          <input
+            placeholder="Enter Space"
+            autoFocus
+            type="text"
+            value={space}
+            onChange={(e) => setSpace(e.target.value)}
+          />
+          <button
+            className="spacesReloader"
+            type="submit"
+            onClick={(e) => handleAddSpace(e)}
+          >
+            <span className="material-symbols-rounded">refresh</span>
+          </button>
+        </form>
+      )}
       <InputForm
         buttonVal={"+"}
         noOfTodos={noOfTodos}

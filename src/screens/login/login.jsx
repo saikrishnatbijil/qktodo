@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../../../firebase/firebase-config";
+import { auth, db } from "../../../firebase/firebase-config";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 function login({ toggle }) {
   // Error Componenet
@@ -14,6 +15,22 @@ function login({ toggle }) {
   // Data Variables
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const makeSpace = async (uid) => {
+    try {
+      const docRef = doc(db, uid, 'spacesData');
+      await setDoc(doc(db, uid, "spacesData"), {
+        name: "main"
+      });
+      localStorage.setItem('space_name', 'main')
+      // console.log("Document written with ID: ", docRef.id);
+      window.location.reload(true);
+    } catch (e) {
+      // setIsError(true);
+      // setErrorMessage(e);
+      console.log(e)  
+    }
+  }
 
   const logInUser = (e) => {
     setIsError(false);
@@ -42,7 +59,8 @@ function login({ toggle }) {
         const user = userCredential.user;
         localStorage.removeItem("todos");
         console.log("Someone is in :: " + user.uid);
-        saveUID(user.uid);
+        makeSpace(user.uid)
+        localStorage.removeItem("todos");
       })
       .catch((error) => {
         const errorMessage = error.message;

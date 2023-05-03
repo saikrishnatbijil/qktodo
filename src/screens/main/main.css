@@ -12,9 +12,53 @@
   width: 40%;
 }
 
+.spaces_container {
+  width: 38%;
+  display: flex;
+  align-items: center;
+}
+
+.spaces_container input {
+  width: fit-content;
+  padding: 10px;
+  padding-left: 20px;
+  background-color: var(--todo);
+  border-radius: 20px;
+  color: gray;
+  border: none;
+}
+
+.material-symbols-rounded {
+  overflow: hidden;
+  color: white;
+  font-variation-settings:
+  'FILL' 1111,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.spacesReloader {
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  padding: 10px;
+  transition-duration: 0.3s;
+}
+
+.spacesReloader:hover {
+  opacity: 0.4;
+}
+
 @media (max-width: 900px) {
   .todosContainer {
     margin-top: 25px;
+    width: 90%;
+  }
+  .spaces_container {
     width: 90%;
   }
 }
