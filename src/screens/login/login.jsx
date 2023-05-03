@@ -16,22 +16,6 @@ function login({ toggle }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const makeSpace = async (uid) => {
-    try {
-      const docRef = doc(db, uid, 'spacesData');
-      await setDoc(doc(db, uid, "spacesData"), {
-        name: "main"
-      });
-      localStorage.setItem('space_name', 'main')
-      // console.log("Document written with ID: ", docRef.id);
-      window.location.reload(true);
-    } catch (e) {
-      // setIsError(true);
-      // setErrorMessage(e);
-      console.log(e)  
-    }
-  }
-
   const logInUser = (e) => {
     setIsError(false);
     e.preventDefault(e);
@@ -59,8 +43,7 @@ function login({ toggle }) {
         const user = userCredential.user;
         localStorage.removeItem("todos");
         console.log("Someone is in :: " + user.uid);
-        makeSpace(user.uid)
-        localStorage.removeItem("todos");
+        saveUID(user.uid);
       })
       .catch((error) => {
         const errorMessage = error.message;
