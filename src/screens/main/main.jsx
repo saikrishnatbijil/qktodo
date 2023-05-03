@@ -282,6 +282,9 @@ function main({ accepted, tooglePrompt }) {
     localStorage.setItem("ID", id);
   }, [todos]);
   useEffect(() => {
+    setNoOfTodos(fTodos.length);
+  }, [fTodos]);
+  useEffect(() => {
     if (isLogedIn) {
       setNoOfTodos(fTodos.length);
     } else {
@@ -306,7 +309,6 @@ function main({ accepted, tooglePrompt }) {
         <form className="spaces_container">
           <input
             placeholder="Enter Space"
-            autoFocus
             type="text"
             value={space}
             onChange={(e) => setSpace(e.target.value)}
