@@ -3,7 +3,6 @@ import "./main.css";
 import {
   ErrorComponent,
   InputForm,
-  SpacesmenuComponent,
   TodoItem,
 } from "../../components";
 import {
@@ -71,9 +70,7 @@ function main({ accepted, tooglePrompt }) {
   const [reload, setReload] = useState(1);
   const [uid, setUid] = useState("");
   const [isLogedIn, setIsLogedIn] = useState(false);
-  const [isSpace, setIsSpace] = useState(false);
   const [space, setSpace] = useState(getLocalSpace());
-  const [spaces, setSpaces] = useState([]);
 
   // console.log(todos);
 
@@ -118,7 +115,7 @@ function main({ accepted, tooglePrompt }) {
   const firebaseClicked = async (e) => {
     e.preventDefault(e);
     try {
-      const document = docFire(db, `${uid}/spaces/${space}`, input);
+      const document = docFire(db, `${uid}/spaces/${space.toLowerCase()}`, input);
       setInput("");
       const docRef = await setDoc(document, {
         name: input,
@@ -145,7 +142,7 @@ function main({ accepted, tooglePrompt }) {
   };
 
   const firebaseRemove = async (todo) => {
-    await deleteDoc(doc(db, uid, "spaces", space, todo.id));
+    await deleteDoc(doc(db, uid, "spaces", space.toLowerCase(), todo.id));
   };
 
   const toggle = (todo) => {
@@ -176,7 +173,7 @@ function main({ accepted, tooglePrompt }) {
   };
 
   const toggleFirebase = async (todo) => {
-    const checkedRef = doc(db, uid, "spaces", space, todo.id);
+    const checkedRef = doc(db, uid, "spaces", space.toLowerCase(), todo.id);
 
     if (todo.checked) {
       await updateDoc(checkedRef, {
@@ -226,7 +223,7 @@ function main({ accepted, tooglePrompt }) {
       setReload(reload + 2);
       setIsLogedIn(true);
       // getFTodos();
-      const q = query(collection(db, uid, "spaces", space));
+      const q = query(collection(db, uid, "spaces", space.toLowerCase()));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         let todoArr = [];
         querySnapshot.forEach((doc) => {
@@ -240,13 +237,14 @@ function main({ accepted, tooglePrompt }) {
   };
   const getSpaces = async (uid) => {
     if (uid !== "") {
-      const q = query(collection(db, uid, "spaces", space));
+      const q = query(collection(db, uid, "spaces", space.toLowerCase()));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         let todoArr = [];
         querySnapshot.forEach((doc) => {
           todoArr.push({ ...doc.data(), id: doc.id });
         });
         setFTodos(todoArr);
+        setReload(reload + 2);
       });
       return () => unsubscribe;
     }
@@ -254,7 +252,7 @@ function main({ accepted, tooglePrompt }) {
   const collectionExists = async () => {
     try {
       const snapshot = await firestore
-        .collection(db, uid, "spaces", space)
+        .collection(db, uid, "spaces", space.toLowerCase())
         .limit(1)
         .get();
       return snapshot.size > 0;
@@ -266,7 +264,8 @@ function main({ accepted, tooglePrompt }) {
   };
   const handleAddSpace = async (e) => {
     e.preventDefault()
-    const q = query(collection(db, uid, "spaces", space));
+    localStorage.setItem("space_name", space.toLowerCase());
+    const q = query(collection(db, uid, "spaces", space.toLowerCase()));
     if (collectionExists) {
       getSpaces(uid);
     } else {

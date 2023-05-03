@@ -5,8 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, db } from "../../../firebase/firebase-config";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { auth } from "../../../firebase/firebase-config";
 
 function login({ toggle }) {
   // Error Componenet

@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "quicktodo-e2277"
-  }
+    "default": "qktodo"
+  },
+  "targets": {},
+  "etags": {}
 }
